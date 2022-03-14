@@ -2,11 +2,11 @@ const router = require("express").Router();
 const { v4: uuidv4 } = require("uuid");
 const {
   filterByQuery,
-  findById,
+  deleteNote,
   createNewNote,
   validateNote,
 } = require("../../lib/notes.js");
-const { notes } = require("../../db/db.json");
+let { notes } = require("../../db/db.json");
 
 router.get("/notes", (req, res) => {
   let results = notes;
@@ -17,7 +17,8 @@ router.get("/notes", (req, res) => {
 });
 
 router.delete("/notes/:id", (req, res) => {
-  const result = findById(req.params.id, notes);
+  const result = deleteNote(req.params.id, notes);
+  notes = result;
   if (result) {
     res.json(result);
   } else {
