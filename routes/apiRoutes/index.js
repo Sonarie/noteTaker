@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const { v4: uuidv4 } = require("uuid");
 const {
   filterByQuery,
   findById,
@@ -15,7 +16,7 @@ router.get("/notes", (req, res) => {
   res.json(results);
 });
 
-router.get("/notes/:id", (req, res) => {
+router.delete("/notes/:id", (req, res) => {
   const result = findById(req.params.id, notes);
   if (result) {
     res.json(result);
@@ -25,7 +26,7 @@ router.get("/notes/:id", (req, res) => {
 });
 
 router.post("/notes", (req, res) => {
-  req.body.id = notes.length.toString();
+  req.body.id = uuidv4();
 
   if (!validateNote(req.body)) {
     res.status(400).send("The note is not properly formatted.");
