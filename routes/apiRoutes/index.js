@@ -7,7 +7,7 @@ const {
 } = require("../../lib/notes.js");
 const { notes } = require("../../db/db.json");
 
-router.get("/db", (req, res) => {
+router.get("/notes", (req, res) => {
   let results = notes;
   if (req.query) {
     results = filterByQuery(req.query, results);
@@ -15,7 +15,7 @@ router.get("/db", (req, res) => {
   res.json(results);
 });
 
-router.get("/db/:id", (req, res) => {
+router.get("/notes/:id", (req, res) => {
   const result = findById(req.params.id, notes);
   if (result) {
     res.json(result);
@@ -24,7 +24,7 @@ router.get("/db/:id", (req, res) => {
   }
 });
 
-router.post("/db", (req, res) => {
+router.post("/notes", (req, res) => {
   req.body.id = notes.length.toString();
 
   if (!validateNote(req.body)) {
